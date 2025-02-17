@@ -1,0 +1,13 @@
+/source/**
+!/source/**/
+!/source/**/.keep
+/output/**
+!/output/**/
+!/output/**/.keep
+
+/src/source/**
+!/src/source/**/
+!/src/source/**/.keep
+/src/output/**
+!/src/output/**/
+!/src/output/**/.keep
