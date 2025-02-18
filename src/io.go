@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-var IMAGE_SIZES = []int{64, 192, 512}
+var IMAGE_SIZES = []int{64, 180, 192, 512}
 
 func loadImage(path string) image.Image {
     file, err := os.Open(path)
