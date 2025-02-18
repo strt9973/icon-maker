@@ -7,10 +7,22 @@ import (
 
 	"golang.org/x/image/draw"
 )
-
 func resizeImage(img image.Image, size int) image.Image{
     newImage := image.NewRGBA(image.Rect(0, 0, size, size))
     draw.CatmullRom.Scale(newImage, newImage.Bounds(), img, img.Bounds(), draw.Over, nil)
+
+    return newImage
+}
+
+func addMarginImage(img image.Image, size int) image.Image{
+    newImage := image.NewRGBA(image.Rect(0, 0, size, size))
+
+	contentSize := int(float64(size) * 0.8)
+    margin := (size - contentSize) / 2
+    contentImage := image.NewRGBA(image.Rect(0, 0, contentSize, contentSize))
+    draw.CatmullRom.Scale(contentImage, contentImage.Bounds(), img, img.Bounds(), draw.Over, nil)
+	offsetRect := image.Rect(margin, margin, margin+contentSize, margin+contentSize)
+    draw.Draw(newImage, offsetRect, contentImage, image.Point{}, draw.Over)
 
     return newImage
 }
@@ -26,7 +38,7 @@ func alphaForDistance(d, radius, margin float64) uint8 {
 }
 
 func createRoundedMask(size int) *image.Alpha {
-	radius := int(size) / 8
+	radius := int(size) / 5
     margin := 1.0 
 	mask := image.NewAlpha(image.Rect(0, 0, size, size))
 
@@ -79,5 +91,6 @@ func editImage(img image.Image, size int) image.Image {
 	img = resizeImage(img, size)
 	mask := createRoundedMask(size)
 	img = applyMask(img, mask)
+	img = addMarginImage(img, size)
 	return img
 }
