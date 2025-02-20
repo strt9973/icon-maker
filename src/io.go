@@ -7,6 +7,7 @@ import (
 	"image/png"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 var IMAGE_SIZES = []int{64, 180, 192, 512}
@@ -26,6 +27,7 @@ func loadImage(path string) image.Image {
 }
 
 func saveImage(path string, img image.Image) {
+	_ = os.MkdirAll(filepath.Dir(path), os.ModePerm)
 	for _, size := range IMAGE_SIZES {
 		file, err := os.Create(fmt.Sprintf("%s_%d.png", path, size))
 		if err != nil {
