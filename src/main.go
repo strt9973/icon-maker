@@ -5,31 +5,28 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 )
 
 func getImagePathList(dir string) []string {
-    names := []string{}
-    file, err := os.Open(dir)
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer file.Close()
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    files, err := file.Readdir(-1)
-    if err != nil {
-        log.Fatal(err)
-    }
-    for _, f := range files {
-        if !f.IsDir() {
-            ext := strings.ToLower(filepath.Ext(f.Name()))
-            if ext == ".png" || ext == ".jpg" || ext == ".jpeg" {
-                names = append(names, f.Name())
-            }
-        }
-    }
-
-    return names
+	filenames := []string{}
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+		filename := entry.Name()
+		ext := filepath.Ext(filename)
+		if slices.Contains([]string{".png", ".jpg", ".jpeg"}, strings.ToLower(ext)) {
+			filenames = append(filenames, filename)
+		}
+	}
+	return filenames
 }
 
 func main() {
