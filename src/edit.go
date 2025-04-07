@@ -87,10 +87,13 @@ func applyMask(src image.Image, mask *image.Alpha) image.Image {
     return dst
 }
 
-func editImage(img image.Image, size int) image.Image {
+func editImage(img image.Image, size int, isMargin bool) image.Image {
 	img = resizeImage(img, size)
 	mask := createRoundedMask(size)
 	img = applyMask(img, mask)
+	if !isMargin {
+		return img
+	}
 	img = addMarginImage(img, size)
 	return img
 }
