@@ -38,7 +38,7 @@ func main() {
     for _, path := range imagePathList {
         img := loadImage("source/" + path)
         ext := filepath.Ext(path)
-        saveImage("output/" + strings.TrimSuffix(path, ext), img)
+        saveIcons("output/" + strings.TrimSuffix(path, ext), img)
     }
     fmt.Println("Done")
 }
