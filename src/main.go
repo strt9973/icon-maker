@@ -54,7 +54,7 @@ Options:
 	for _, filename := range imagePathList {
 		img := loadImage(filepath.Join(src, filename))
 		stem := strings.TrimSuffix(filename, filepath.Ext(filename))
-		saveImage(filepath.Join(dst, stem), img)
+		saveImages(filepath.Join(dst, stem), img)
 	}
 	fmt.Println("Done")
 }
